@@ -28,11 +28,9 @@
         <div class="time-wrap">
           <span class="left-part">
             <span id="start_time">?</span>
-            :00
           </span>
           <span class="right-part">
             <span id="end_time">?</span>
-            :00
           </span>
         </div>
         <div class="attend-wrap">
@@ -80,6 +78,12 @@
   <script src="../js/zepto-touch.js"></script>
   <script src="../js/grid.js"></script>
   <script>
+  function query(a) {
+    var b = new RegExp("(\\?|#|&)" + a + "=([^&#]*)(&|#|$)"),
+        c = window.location.href.match(b);
+    return c ? decodeURIComponent(c[2]) : void 0
+}
+
       var title = $("#title"),
           desc = $("#desc"),
           start_time = $("#start_time"),
@@ -91,11 +95,17 @@
           more_man_list = $(".more-man-list"),
           img = $("#img"),
           man_item_length = 0;
+      var cgi,
+          activityId = query('id');
 
-      $.get('../js/activity-json.json',function(data){
-        var e_t = Number(data.endTime),
-            s_t = Number(data.startTime)
-            dis_time = e_t - s_t;
+      cgi = 'http://' + location.host + '/activities/' +  activityId + '/';
+
+      // get请求
+      $.get(cgi,function(data){
+        var data = data.item;
+        var e_t = new Date(data.endTime).pattern('HH:mm');
+        var s_t = new Date(data.startTime).pattern('HH:mm');
+        var dis_time = new Number( (new Date(data.endTime) - new Date(data.startTime)) / (60*60*1000) ).toFixed(1);
 
         title.html(data.title);
         if(data.img!=null)
@@ -107,7 +117,7 @@
         end_time.html(e_t);
         whole_time.html(dis_time);
         work_location.html(data.position);
-        attend_number.html("8");
+        attend_number.html(data.list.length);
 
         for(var i=0; i<data.list.length;i++){
           var tmpstr =

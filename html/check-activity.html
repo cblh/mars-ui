@@ -35,6 +35,16 @@
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=ahjZL6YcpCxIQhnOSNSXKpHP"></script>
   <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
   <script>
+    function query(a) {
+    var b = new RegExp("(\\?|#|&)" + a + "=([^&#]*)(&|#|$)"),
+        c = window.location.href.match(b);
+    return c ? decodeURIComponent(c[2]) : void 0
+}
+      var cgi,
+          activityId = query('id');
+
+      cgiGet = 'http://' + location.host + '/activities/' +  activityId + '/';
+      cgiUpdate = 'http://' + location.host + '/activities/';
       //地图展示
       var i_l = 113.361203,
           i_r = 23.162477,
@@ -91,7 +101,7 @@
 
       function getInfo () {
 
-      $.get('../js/activity-json.json',function(data){
+      $.get(cgiGet,function(data){
           t_l = Number(data.signPosition.lat);
           t_r = Number(data.signPosition.lon);
 
@@ -121,7 +131,7 @@
 
                           canClick = false;
 
-                          $.get('../js/activity-json.json',function(data){
+                          $.get(cgiUpdate,function(data){
                               check_btn.html("活动结束~");
                               check_btn.removeClass("allow");
 
@@ -133,7 +143,7 @@
 
                           canClick = false;
 
-                          $.get('../js/activity-json.json',function(data){
+                          $.get(cgiUpdate,function(data){
                               check_btn.html("签到成功,活动结束后再点哟～");
                               canClick = true;
                               qd_ed = true;
