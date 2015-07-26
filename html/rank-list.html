@@ -26,8 +26,15 @@
   <script>
       var rank_list = $('.p-rank-list');
 
-      $.get('../js/activity-json.json',function(data){
+      var cgi = 'http://' + location.host + '/users/';
 
+      $.get(cgi,function(data){
+
+        if (data.retCode) {
+          console.log('service error: '+data.meassage)
+          return;
+        };
+        var data = data.item;
         var list_length = data.list.length;
         var biggest = Number(data.list[0].totalhour);
 

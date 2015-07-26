@@ -103,9 +103,9 @@
       // get请求
       $.get(cgi,function(data){
         var data = data.item;
-        var e_t = new Date(data.endTime).pattern('HH:mm');
-        var s_t = new Date(data.startTime).pattern('HH:mm');
-        var dis_time = new Number( (new Date(data.endTime) - new Date(data.startTime)) / (60*60*1000) ).toFixed(1);
+        var e_t = new Date(data.endTime.substr(0,16)).pattern('HH:mm');
+        var s_t = new Date(data.startTime.substr(0,16)).pattern('HH:mm');
+        var dis_time = new Number( (new Date(data.endTime.substr(0,16)) - new Date(data.startTime).substr(0,16)) / (60*60*1000) ).toFixed(1);
 
         title.html(data.title);
         if(data.img!=null)
