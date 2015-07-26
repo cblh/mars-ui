@@ -105,7 +105,7 @@
         var data = data.item;
         var e_t = new Date(data.endTime.substr(0,16)).pattern('HH:mm');
         var s_t = new Date(data.startTime.substr(0,16)).pattern('HH:mm');
-        var dis_time = new Number( (new Date(data.endTime.substr(0,16)) - new Date(data.startTime).substr(0,16)) / (60*60*1000) ).toFixed(1);
+        var dis_time = new Number( (new Date(data.endTime.substr(0,16)) - new Date(data.startTime.substr(0,16))) / (60*60*1000) ).toFixed(1);
 
         title.html(data.title);
         if(data.img!=null)
